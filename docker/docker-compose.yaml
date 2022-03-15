@@ -14,8 +14,16 @@ services:
       DATABASE_HOST: db
       COIN: KAVA
       ETHEREUM_JSONRPC_VARIANT: geth
-      ETHEREUM_JSONRPC_HTTP_URL: https://evm.evm-internal.kava.io:443
-      ETHEREUM_JSONRPC_WS_URL: ws://evm-ws.evm-internal.kava.io:443
+      ETHEREUM_JSONRPC_HTTP_URL: https://evm.evm-alpha.kava.io:443
+      NETWORK: "Kava Ethereum Co-Chain"
+      SUBNETWORK: "testnet-alpha
+      BLOCKSCOUT_HOST: "explorer.evm-alpha.kava.io" # fine for eth json rpc, but it seems to be also used for blockscout api itself
+      # format: https://github.com/blockscout/blockscout/pull/1900
+      SUPPORTED_CHAINS: '[{"title":"kava-9","url":"https://www.mintscan.io/kava","test_net?": false}]'
+      SHOW_MAINTENANCE_ALERT: false
+      MAINTENANCE_ALERT_MESSAGE: "The explorer is undergoing maintenance."
+      LOGO: "/images/kava-logo.png"
+      LOGO_TEXT: "Ethereum Co-Chain"
     ports:
       - "4000:4000"
     restart: always
