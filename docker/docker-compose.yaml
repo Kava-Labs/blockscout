@@ -1,0 +1,43 @@
+version: '3.7'
+services:
+  phoenix:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    command: /bin/sh -c "mix do ecto.create, ecto.migrate; mix phx.server"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/postgres?ssl=false
+      DATABASE_USER: postgres
+      DATABASE_PASS: postgres
+      DATABASE_NAME: postgres
+      DATABASE_PORT: 5432
+      DATABASE_HOST: db
+      COIN: KAVA
+      ETHEREUM_JSONRPC_VARIANT: geth
+      ETHEREUM_JSONRPC_HTTP_URL: https://evm.evm-alpha.kava.io:443
+      NETWORK: "Kava Ethereum Co-Chain"
+      SUBNETWORK: "testnet-alpha
+      BLOCKSCOUT_HOST: "explorer.evm-alpha.kava.io" # fine for eth json rpc, but it seems to be also used for blockscout api itself
+      # format: https://github.com/blockscout/blockscout/pull/1900
+      SUPPORTED_CHAINS: '[{"title":"kava-9","url":"https://www.mintscan.io/kava","test_net?": false}]'
+      SHOW_MAINTENANCE_ALERT: false
+      MAINTENANCE_ALERT_MESSAGE: "The explorer is undergoing maintenance."
+      LOGO: "/images/kava-logo.png"
+      LOGO_TEXT: "Ethereum Co-Chain"
+    ports:
+      - "4000:4000"
+    restart: always
+    depends_on:
+      - db
+  db:
+    image: postgres:10.12-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
